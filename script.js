@@ -67,49 +67,17 @@ window.addEventListener('scroll', updateActiveLink, { passive: true });
 updateActiveLink();
 
 /* ════════════════════════════════════════════════════════════
-   LIGHTBOX — ventana flotante arrastrable
+   PIP PLAYER — se ancla al thumbnail, flota al hacer scroll
 ════════════════════════════════════════════════════════════ */
-const lightbox        = document.getElementById('lightbox');
-const lightboxContent = document.getElementById('lightboxContent');
-const lightboxMedia   = document.getElementById('lightboxMedia');
-const lightboxClose   = document.getElementById('lightboxClose');
-const lightboxHandle  = document.getElementById('lightboxHandle');
-let   lastFocused     = null;
+const pipPlayer = document.getElementById('pipPlayer');
+const pipMedia  = document.getElementById('pipMedia');
+const pipClose  = document.getElementById('pipClose');
+let   activeItem = null;
+let   isFloating = false;
 
-/* ── Arrastre ─────────────────────────────────────────────── */
-let isDragging = false, dragStartX, dragStartY, initialLeft, initialTop;
-
-lightboxHandle.addEventListener('mousedown', e => {
-  if (e.button !== 0) return;
-  isDragging = true;
-  const rect = lightboxContent.getBoundingClientRect();
-  dragStartX  = e.clientX;
-  dragStartY  = e.clientY;
-  initialLeft = rect.left;
-  initialTop  = rect.top;
-  lightboxContent.style.transition = 'none';
-  e.preventDefault();
-});
-
-document.addEventListener('mousemove', e => {
-  if (!isDragging) return;
-  lightboxContent.style.left      = `${initialLeft + e.clientX - dragStartX}px`;
-  lightboxContent.style.top       = `${initialTop  + e.clientY - dragStartY}px`;
-  lightboxContent.style.transform = 'none';
-});
-
-document.addEventListener('mouseup', () => { isDragging = false; });
-
-/**
- * Construye el elemento de media según el tipo.
- * @param {'youtube'|'vimeo'|'local'} type
- * @param {string} src  ID de YouTube/Vimeo o ruta del archivo .mp4
- * @returns {HTMLElement}
- */
 function buildMediaEl(type, src) {
   if (type === 'youtube') {
     const iframe = document.createElement('iframe');
-    // autoplay=1: reproduce al abrir · rel=0: sin vídeos relacionados
     iframe.src             = `https://www.youtube-nocookie.com/embed/${src}?autoplay=1&rel=0&modestbranding=1`;
     iframe.allow           = 'autoplay; fullscreen; picture-in-picture';
     iframe.allowFullscreen = true;
@@ -117,61 +85,87 @@ function buildMediaEl(type, src) {
     iframe.title           = 'Reproductor YouTube';
     return iframe;
   }
-
   if (type === 'vimeo') {
     const iframe = document.createElement('iframe');
-    // color=c49a6c: tint de los controles al color acento del sitio
     iframe.src             = `https://player.vimeo.com/video/${src}?autoplay=1&color=F0B922&title=0&byline=0`;
     iframe.allow           = 'autoplay; fullscreen; picture-in-picture';
     iframe.allowFullscreen = true;
     iframe.title           = 'Reproductor Vimeo';
     return iframe;
   }
-
-  // Vídeo local .mp4
-  const video        = document.createElement('video');
-  video.src          = src;
-  video.controls     = true;
-  video.autoplay     = true;
-  video.playsInline  = true;
-  video.preload      = 'metadata';
+  const video       = document.createElement('video');
+  video.src         = src;
+  video.controls    = true;
+  video.autoplay    = true;
+  video.playsInline = true;
+  video.preload     = 'metadata';
   return video;
 }
 
-function openLightbox(type, src) {
-  lastFocused = document.activeElement;
-  lightboxMedia.innerHTML = '';
-  lightboxMedia.appendChild(buildMediaEl(type, src));
-  // Centrar al abrir (resetear si se había arrastrado antes)
-  lightboxContent.style.left      = '50%';
-  lightboxContent.style.top       = '50%';
-  lightboxContent.style.transform = 'translate(-50%, -50%)';
-  lightboxContent.style.transition = '';
-  lightbox.classList.add('is-open');
-  lightbox.setAttribute('aria-hidden', 'false');
-  lightboxClose.focus();
+function snapToCard() {
+  const rect = activeItem.querySelector('.reel-item__thumb').getBoundingClientRect();
+  pipPlayer.style.transition = 'none';
+  pipPlayer.style.left   = rect.left + 'px';
+  pipPlayer.style.top    = rect.top + 'px';
+  pipPlayer.style.width  = rect.width + 'px';
+  pipPlayer.style.height = rect.height + 'px';
+  pipPlayer.classList.remove('pip-player--floating');
+  isFloating = false;
 }
 
-function closeLightbox() {
-  lightbox.classList.remove('is-open');
-  lightbox.setAttribute('aria-hidden', 'true');
-  setTimeout(() => { lightboxMedia.innerHTML = ''; }, 260);
-  if (lastFocused) lastFocused.focus();
+function floatToCorner() {
+  const w = Math.min(340, window.innerWidth - 32);
+  const h = Math.round(w * 9 / 16);
+  pipPlayer.style.transition = 'left 0.35s ease, top 0.35s ease, width 0.35s ease, height 0.35s ease';
+  pipPlayer.style.left   = (window.innerWidth - w - 16) + 'px';
+  pipPlayer.style.top    = '80px';
+  pipPlayer.style.width  = w + 'px';
+  pipPlayer.style.height = h + 'px';
+  pipPlayer.classList.add('pip-player--floating');
+  isFloating = true;
 }
 
-// Delegación: clic en cualquier .reel-item (featured o grid) abre el lightbox
+function updatePip() {
+  if (!activeItem) return;
+  const rect = activeItem.querySelector('.reel-item__thumb').getBoundingClientRect();
+  const inView = rect.top < window.innerHeight - 40 && rect.bottom > 40;
+  if (inView) {
+    snapToCard();
+  } else if (!isFloating) {
+    floatToCorner();
+  }
+}
+
+function openPip(item) {
+  activeItem = item;
+  isFloating = false;
+  pipMedia.innerHTML = '';
+  pipMedia.appendChild(buildMediaEl(item.dataset.type, item.dataset.src));
+  pipPlayer.classList.add('is-active');
+  snapToCard();
+}
+
+function closePip() {
+  pipPlayer.classList.remove('is-active', 'pip-player--floating');
+  pipMedia.innerHTML = '';
+  activeItem = null;
+  isFloating = false;
+}
+
+window.addEventListener('scroll', updatePip, { passive: true });
+window.addEventListener('resize', updatePip, { passive: true });
+
 document.querySelector('.section--reel')?.addEventListener('click', e => {
   const item = e.target.closest('.reel-item');
   if (!item) return;
-  openLightbox(item.dataset.type, item.dataset.src);
+  if (activeItem) closePip();
+  openPip(item);
 });
 
-lightboxClose.addEventListener('click', closeLightbox);
+pipClose.addEventListener('click', closePip);
 
 document.addEventListener('keydown', e => {
-  if (e.key === 'Escape' && lightbox.classList.contains('is-open')) {
-    closeLightbox();
-  }
+  if (e.key === 'Escape' && activeItem) closePip();
 });
 
 /* ════════════════════════════════════════════════════════════

@@ -580,87 +580,68 @@ textarea      { resize: vertical; }
 }
 
 /* ════════════════════════════════════════════════
-   LIGHTBOX — ventana flotante arrastrable
+   PIP PLAYER
 ════════════════════════════════════════════════ */
-.lightbox {
+.pip-player {
   position: fixed;
-  inset: 0;
   z-index: 200;
-  pointer-events: none;
-  visibility: hidden;
-  opacity: 0;
-  transition: opacity 250ms ease, visibility 250ms ease;
-}
-
-.lightbox.is-open {
-  visibility: visible;
-  opacity: 1;
-}
-
-.lightbox__content {
-  position: fixed;
-  z-index: 201;
-  width: min(92vw, 720px);
-  pointer-events: auto;
+  background: #000;
   border-radius: var(--radius);
   overflow: hidden;
-  box-shadow: 0 24px 80px rgba(0,0,0,0.8), 0 0 0 1px rgba(255,255,255,0.08);
-  left: 50%;
-  top: 50%;
-  transform: translate(-50%, -50%);
+  display: none;
 }
 
-.lightbox__handle {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 0 10px 0 14px;
-  height: 38px;
-  background: #1c1c1c;
-  cursor: grab;
-  user-select: none;
+.pip-player.is-active {
+  display: block;
 }
 
-.lightbox__handle:active { cursor: grabbing; }
-
-.lightbox__handle-dots {
-  color: rgba(255,255,255,0.25);
-  font-size: 1.1rem;
-  letter-spacing: 2px;
+.pip-player--floating {
+  box-shadow: 0 8px 40px rgba(0,0,0,0.7), 0 0 0 1px rgba(255,255,255,0.08);
 }
 
-.lightbox__close {
-  width: 32px;
-  height: 32px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: var(--text-muted);
-  transition: color var(--ease);
-  cursor: pointer;
+.pip-player__media {
+  width: 100%;
+  height: 100%;
 }
 
-.lightbox__close:hover { color: var(--text); }
-
-.lightbox__close svg {
-  width: 18px;
-  height: 18px;
-  stroke: currentColor;
-  stroke-width: 1.5;
-  fill: none;
-  stroke-linecap: round;
-  stroke-linejoin: round;
-}
-
-.lightbox__media {
-  aspect-ratio: 16 / 9;
-  background-color: #000;
-}
-
-.lightbox__media iframe,
-.lightbox__media video {
+.pip-player__media iframe,
+.pip-player__media video {
   display: block;
   width: 100%;
   height: 100%;
   border: none;
+}
+
+.pip-player__close {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: rgba(0,0,0,0.65);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: opacity 0.2s;
+  cursor: pointer;
+  z-index: 1;
+  border: none;
+}
+
+.pip-player:hover .pip-player__close,
+.pip-player--floating .pip-player__close {
+  opacity: 1;
+}
+
+.pip-player__close svg {
+  width: 14px;
+  height: 14px;
+  stroke: currentColor;
+  stroke-width: 2;
+  fill: none;
+  stroke-linecap: round;
+  stroke-linejoin: round;
 }

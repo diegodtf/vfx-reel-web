@@ -45,7 +45,7 @@
     <nav class="nav" aria-label="Navegación principal">
 
       <!-- Sustituye "TU NOMBRE" por tu nombre o logotipo -->
-      <a href="#reel" class="nav__logo">TU NOMBRE</a>
+      <a href="#reel" class="nav__logo">Diego de la Torre</a>
 
       <button class="nav__toggle"
               aria-label="Abrir menú de navegación"
@@ -277,7 +277,7 @@
         <form class="contact-form"
               id="contactForm"
               novalidate
-              data-email="diegodelatf@gmail.com">
+              data-email="diegodelatorrevfx@gmail.com">
 
           <div class="form-group">
             <label for="sender-email" class="form-label">Tu email</label>
@@ -338,31 +338,21 @@
 
   <!-- Sustituye "Tu Nombre" por tu nombre real -->
   <footer class="site-footer" role="contentinfo">
-    <p>&copy; <span id="copyright-year"></span> Tu Nombre — Todos los derechos reservados</p>
+    <p>&copy; <span id="copyright-year"></span> Diego de la Torre — Todos los derechos reservados</p>
   </footer>
 
   <!-- ════════════════════════════════════════════
        LIGHTBOX / MODAL DE VÍDEO
        (contenido inyectado por script.js)
        ════════════════════════════════════════════ -->
-  <div class="lightbox"
-       id="lightbox"
-       role="dialog"
-       aria-modal="false"
-       aria-label="Reproductor de vídeo"
-       aria-hidden="true">
-    <div class="lightbox__content" id="lightboxContent">
-      <div class="lightbox__handle" id="lightboxHandle">
-        <span class="lightbox__handle-dots" aria-hidden="true">⠿</span>
-        <button class="lightbox__close" id="lightboxClose" aria-label="Cerrar vídeo">
-          <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-            <line x1="18" y1="6"  x2="6"  y2="18"/>
-            <line x1="6"  y1="6"  x2="18" y2="18"/>
-          </svg>
-        </button>
-      </div>
-      <div class="lightbox__media" id="lightboxMedia"></div>
-    </div>
+  <div class="pip-player" id="pipPlayer">
+    <div class="pip-player__media" id="pipMedia"></div>
+    <button class="pip-player__close" id="pipClose" aria-label="Cerrar vídeo">
+      <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+        <line x1="18" y1="6"  x2="6"  y2="18"/>
+        <line x1="6"  y1="6"  x2="18" y2="18"/>
+      </svg>
+    </button>
   </div>
 
   <script src="script.js"></script>
