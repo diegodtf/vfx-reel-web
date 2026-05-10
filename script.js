@@ -101,6 +101,7 @@ function buildMediaEl(type, src) {
 function stopPlaying() {
   if (!activeItem) return;
   activeItem.querySelector('.reel-item__thumb iframe, .reel-item__thumb video')?.remove();
+  activeItem.querySelector('.reel-item__btn')?.blur();
   activeItem.classList.remove('is-playing');
   activeItem = null;
 }
