@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- ╔══════════════════════════════════════════╗
+       ║  Sustituye "Tu nombre" por tu nombre     ║
+       ║  real en <title> y en la meta descripción║
+       ╚══════════════════════════════════════════╝ -->
+  <title>Diego de la Torre — VFX Reel</title>
+  <meta name="description" content="Portfolio de efectos visuales de Diego de la Torre. VFX, 3D, Compositing.">
+
+  <meta http-equiv="Content-Security-Policy" content="
+    default-src 'self';
+    script-src 'self' 'unsafe-inline' https://www.youtube.com https://www.youtube-nocookie.com https://s.ytimg.com https://www.google.com;
+    frame-src https://www.youtube.com https://www.youtube-nocookie.com;
+    img-src 'self' data: https://img.youtube.com https://i.ytimg.com https://s.ytimg.com https://placehold.co;
+    style-src 'self' 'unsafe-inline' https://fonts.googleapis.com;
+    font-src https://fonts.gstatic.com;
+    connect-src 'self' https://www.youtube.com https://www.youtube-nocookie.com;
+    media-src 'self' https://www.youtube.com https://www.youtube-nocookie.com;
+  ">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <!-- ══════════════════════════════════════════════
+       HEADER / NAVEGACIÓN (sticky)
+       ══════════════════════════════════════════════ -->
+  <header class="site-header" role="banner">
+    <nav class="nav" aria-label="Navegación principal">
+
+      <!-- Sustituye "TU NOMBRE" por tu nombre o logotipo -->
+      <a href="#reel" class="nav__logo">TU NOMBRE</a>
+
+      <button class="nav__toggle"
+              aria-label="Abrir menú de navegación"
+              aria-expanded="false"
+              aria-controls="nav-links">
+        <span aria-hidden="true"></span>
+        <span aria-hidden="true"></span>
+        <span aria-hidden="true"></span>
+      </button>
+
+      <ul class="nav__links" id="nav-links" role="list">
+        <li><a href="#reel"    class="nav__link">Reel</a></li>
+        <li><a href="#about"   class="nav__link">Sobre mí</a></li>
+        <li><a href="#contact" class="nav__link">Contacto</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main id="main-content">
+
+    <!-- ════════════════════════════════════════════
+         SECCIÓN 1: REEL
+         ════════════════════════════════════════════ -->
+    <section id="reel" class="section section--reel" aria-labelledby="reel-title">
+      <div class="container">
+
+        <!-- Sustituye "Reel" si prefieres otro encabezado (ej. "Trabajo") -->
+        <h1 class="section__title" id="reel-title">Reel</h1>
+        <!-- Sustituye por tu especialidad / tagline -->
+        <p class="section__subtitle">Efectos visuales &nbsp;·&nbsp; Compositing &nbsp;·&nbsp; 3D</p>
+
+        <!--
+        ┌──────────────────────────────────────────────────────────┐
+        │  GRID DE VÍDEOS                                          │
+        │                                                          │
+        │  Cada <article class="reel-item"> necesita:             │
+        │    data-type → "youtube" | "vimeo" | "local"             │
+        │    data-src  → ID del vídeo (YouTube/Vimeo) o ruta .mp4  │
+        │    img src   → miniatura (assets/thumb-N.jpg)            │
+        │    img alt   → descripción accesible del proyecto        │
+        │                                                          │
+        │  Añade o elimina bloques <article> según necesites.      │
+        └──────────────────────────────────────────────────────────┘
+        -->
+        <!-- ── REEL PRINCIPAL (grande) ──────────────────────── -->
+        <div class="reel-featured">
+          <article class="reel-item reel-item--featured"
+                   data-type="youtube"
+                   data-src="R8_Qxf6aeGc">
+            <div class="reel-item__thumb">
+              <img src="https://img.youtube.com/vi/R8_Qxf6aeGc/maxresdefault.jpg"
+                   alt="Reel principal — Diego de la Torre VFX"
+                   width="1280" height="720">
+              <div class="reel-item__overlay" aria-hidden="true">
+                <svg class="play-icon" viewBox="0 0 24 24" focusable="false">
+                  <polygon points="5,3 19,12 5,21"/>
+                </svg>
+              </div>
+            </div>
+            <button class="reel-item__btn"
+                    aria-label="Reproducir Reel Principal"></button>
+            <p class="reel-item__label">Reel Principal</p>
+          </article>
+        </div>
+
+        <!-- ── BREAKDOWNS ESPECÍFICOS (cuadrícula) ──────────── -->
+        <p class="reel-breakdowns-title">Breakdowns</p>
+        <div class="reel-grid">
+
+          <article class="reel-item"
+                   data-type="youtube"
+                   data-src="bV-UIRAEMZs">
+            <div class="reel-item__thumb">
+              <img src="https://img.youtube.com/vi/bV-UIRAEMZs/hqdefault.jpg"
+                   alt="Wētā FX Company Showreel 2025"
+                   loading="lazy"
+                   width="640" height="360">
+              <div class="reel-item__overlay" aria-hidden="true">
+                <svg class="play-icon" viewBox="0 0 24 24" focusable="false">
+                  <polygon points="5,3 19,12 5,21"/>
+                </svg>
+              </div>
+            </div>
+            <button class="reel-item__btn"
+                    aria-label="Reproducir Breakdown 01"></button>
+            <p class="reel-item__label">Breakdown 01</p>
+          </article>
+
+          <article class="reel-item"
+                   data-type="youtube"
+                   data-src="QsiQRp3-lX8">
+            <div class="reel-item__thumb">
+              <img src="https://img.youtube.com/vi/QsiQRp3-lX8/hqdefault.jpg"
+                   alt="Wētā FX Company Showreel 2024"
+                   loading="lazy"
+                   width="640" height="360">
+              <div class="reel-item__overlay" aria-hidden="true">
+                <svg class="play-icon" viewBox="0 0 24 24" focusable="false">
+                  <polygon points="5,3 19,12 5,21"/>
+                </svg>
+              </div>
+            </div>
+            <button class="reel-item__btn"
+                    aria-label="Reproducir Breakdown 02"></button>
+            <p class="reel-item__label">Breakdown 02</p>
+          </article>
+
+          <article class="reel-item"
+                   data-type="youtube"
+                   data-src="s8B_XtmqEdQ">
+            <div class="reel-item__thumb">
+              <img src="https://img.youtube.com/vi/s8B_XtmqEdQ/hqdefault.jpg"
+                   alt="MPC Showreel 2024"
+                   loading="lazy"
+                   width="640" height="360">
+              <div class="reel-item__overlay" aria-hidden="true">
+                <svg class="play-icon" viewBox="0 0 24 24" focusable="false">
+                  <polygon points="5,3 19,12 5,21"/>
+                </svg>
+              </div>
+            </div>
+            <button class="reel-item__btn"
+                    aria-label="Reproducir Breakdown 03"></button>
+            <p class="reel-item__label">Breakdown 03</p>
+          </article>
+
+          <article class="reel-item"
+                   data-type="youtube"
+                   data-src="iORWYvPweWE">
+            <div class="reel-item__thumb">
+              <img src="https://img.youtube.com/vi/iORWYvPweWE/hqdefault.jpg"
+                   alt="Framestore VFX Showreel 2024"
+                   loading="lazy"
+                   width="640" height="360">
+              <div class="reel-item__overlay" aria-hidden="true">
+                <svg class="play-icon" viewBox="0 0 24 24" focusable="false">
+                  <polygon points="5,3 19,12 5,21"/>
+                </svg>
+              </div>
+            </div>
+            <button class="reel-item__btn"
+                    aria-label="Reproducir Breakdown 04"></button>
+            <p class="reel-item__label">Breakdown 04</p>
+          </article>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ════════════════════════════════════════════
+         SECCIÓN 2: SOBRE MÍ
+         ════════════════════════════════════════════ -->
+    <section id="about" class="section section--about" aria-labelledby="about-title">
+      <div class="container">
+        <div class="about-layout">
+
+          <div class="about-image">
+            <!-- Sustituye assets/profile.jpg por tu foto.
+                 Actualiza el atributo alt con tu nombre real. -->
+            <img src="https://placehold.co/400x500/141414/f5f0e8?text=Tu+Foto"
+                 alt="Foto de perfil de Tu Nombre, artista VFX"
+                 class="about-image__img"
+                 loading="lazy"
+                 width="400" height="500">
+          </div>
+
+          <div class="about-content">
+            <h2 class="section__title" id="about-title">Sobre mí</h2>
+            <!-- Sustituye por tu especialidad / rol -->
+            <p class="about-content__role">Artista VFX &amp; Compositor</p>
+
+            <!-- Sustituye estos párrafos por tu presentación real -->
+            <p class="about-content__bio">
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod
+              tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+              quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+            </p>
+            <p class="about-content__bio">
+              Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore
+              eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident,
+              sunt in culpa qui officia deserunt mollit anim id est laborum.
+            </p>
+
+            <div class="about-skills">
+              <h3 class="about-skills__title">Software &amp; herramientas</h3>
+              <!-- Sustituye o amplía esta lista según tus herramientas -->
+              <ul class="about-skills__list" role="list">
+                <li>Nuke</li>
+                <li>Houdini</li>
+                <li>After Effects</li>
+                <li>Cinema 4D</li>
+                <li>Blender</li>
+                <li>DaVinci Resolve</li>
+              </ul>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ════════════════════════════════════════════
+         SECCIÓN 3: CONTACTO
+         ════════════════════════════════════════════ -->
+    <section id="contact" class="section section--contact" aria-labelledby="contact-title">
+      <div class="container">
+
+        <h2 class="section__title" id="contact-title">Contacto</h2>
+        <!-- Sustituye por tu tagline de contacto -->
+        <p class="section__subtitle">¿Tienes un proyecto en mente? Hablemos.</p>
+
+        <!--
+        ┌────────────────────────────────────────────────────────────┐
+        │  FORMULARIO DE CONTACTO                                    │
+        │                                                            │
+        │  OPCIÓN A — mailto: (configuración actual)                 │
+        │    Sustituye "tucorreo@ejemplo.com" en data-email          │
+        │    por tu email real. Abre el cliente de correo local.     │
+        │                                                            │
+        │  OPCIÓN B — Formspree (recomendado para producción)        │
+        │    1. Crea cuenta en https://formspree.io                  │
+        │    2. Nuevo formulario → copia el endpoint                 │
+        │       (ej. https://formspree.io/f/XXXXXXXX)               │
+        │    3. Añade method="POST" y action="…tu endpoint…"         │
+        │    4. Elimina el atributo data-email del <form>            │
+        │    5. En script.js, descomenta el bloque "OPCIÓN B"        │
+        └────────────────────────────────────────────────────────────┘
+        -->
+        <form class="contact-form"
+              id="contactForm"
+              novalidate
+              data-email="diegodelatf@gmail.com">
+
+          <div class="form-group">
+            <label for="sender-email" class="form-label">Tu email</label>
+            <input type="email"
+                   id="sender-email"
+                   name="email"
+                   class="form-input"
+                   placeholder="nombre@ejemplo.com"
+                   autocomplete="email"
+                   required
+                   aria-describedby="email-error">
+            <span class="form-error" id="email-error" role="alert" aria-live="polite"></span>
+          </div>
+
+          <div class="form-group">
+            <label for="sender-message" class="form-label">Mensaje</label>
+            <textarea id="sender-message"
+                      name="message"
+                      class="form-input form-input--textarea"
+                      placeholder="Cuéntame sobre tu proyecto…"
+                      rows="6"
+                      required
+                      aria-describedby="message-error"></textarea>
+            <span class="form-error" id="message-error" role="alert" aria-live="polite"></span>
+          </div>
+
+          <button type="submit" class="btn-submit">Enviar mensaje</button>
+          <p class="form-status" id="formStatus" aria-live="polite"></p>
+        </form>
+
+        <!-- REDES SOCIALES
+             Sustituye los href="#" por tus URLs reales:
+               LinkedIn   → https://linkedin.com/in/tu-perfil
+               Instagram  → https://instagram.com/tu-usuario
+               ArtStation → https://artstation.com/tu-usuario -->
+        <nav class="social-links" aria-label="Redes sociales">
+          <a href="#"
+             class="social-link"
+             target="_blank"
+             rel="noopener noreferrer"
+             aria-label="LinkedIn (abre en nueva pestaña)">LinkedIn</a>
+          <a href="#"
+             class="social-link"
+             target="_blank"
+             rel="noopener noreferrer"
+             aria-label="Instagram (abre en nueva pestaña)">Instagram</a>
+          <a href="#"
+             class="social-link"
+             target="_blank"
+             rel="noopener noreferrer"
+             aria-label="ArtStation (abre en nueva pestaña)">ArtStation</a>
+        </nav>
+
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Sustituye "Tu Nombre" por tu nombre real -->
+  <footer class="site-footer" role="contentinfo">
+    <p>&copy; <span id="copyright-year"></span> Tu Nombre — Todos los derechos reservados</p>
+  </footer>
+
+  <!-- ════════════════════════════════════════════
+       LIGHTBOX / MODAL DE VÍDEO
+       (contenido inyectado por script.js)
+       ════════════════════════════════════════════ -->
+  <div class="lightbox"
+       id="lightbox"
+       role="dialog"
+       aria-modal="true"
+       aria-label="Reproductor de vídeo"
+       aria-hidden="true">
+    <div class="lightbox__backdrop" id="lightboxBackdrop"></div>
+    <div class="lightbox__content">
+      <button class="lightbox__close" id="lightboxClose" aria-label="Cerrar vídeo">
+        <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+          <line x1="18" y1="6"  x2="6"  y2="18"/>
+          <line x1="6"  y1="6"  x2="18" y2="18"/>
+        </svg>
+      </button>
+      <div class="lightbox__media" id="lightboxMedia"></div>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
