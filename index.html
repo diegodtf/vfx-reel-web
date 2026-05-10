@@ -10,6 +10,16 @@
   <title>Diego de la Torre — VFX Reel</title>
   <meta name="description" content="Portfolio de efectos visuales de Diego de la Torre. VFX, 3D, Compositing.">
 
+  <!-- Open Graph / WhatsApp / redes sociales -->
+  <meta property="og:type"        content="website">
+  <meta property="og:url"         content="https://diegodtf.github.io/vfx-reel-web/">
+  <meta property="og:title"       content="Diego de la Torre — VFX Reel">
+  <meta property="og:description" content="Portfolio de efectos visuales de Diego de la Torre. VFX, 3D, Compositing.">
+  <meta property="og:image"       content="https://img.youtube.com/vi/R8_Qxf6aeGc/maxresdefault.jpg">
+  <meta property="og:image:width"  content="1280">
+  <meta property="og:image:height" content="720">
+  <meta name="twitter:card"        content="summary_large_image">
+
   <meta http-equiv="Content-Security-Policy" content="
     default-src 'self';
     script-src 'self' 'unsafe-inline' https://www.youtube.com https://www.youtube-nocookie.com https://s.ytimg.com https://www.google.com;
@@ -338,17 +348,19 @@
   <div class="lightbox"
        id="lightbox"
        role="dialog"
-       aria-modal="true"
+       aria-modal="false"
        aria-label="Reproductor de vídeo"
        aria-hidden="true">
-    <div class="lightbox__backdrop" id="lightboxBackdrop"></div>
-    <div class="lightbox__content">
-      <button class="lightbox__close" id="lightboxClose" aria-label="Cerrar vídeo">
-        <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-          <line x1="18" y1="6"  x2="6"  y2="18"/>
-          <line x1="6"  y1="6"  x2="18" y2="18"/>
-        </svg>
-      </button>
+    <div class="lightbox__content" id="lightboxContent">
+      <div class="lightbox__handle" id="lightboxHandle">
+        <span class="lightbox__handle-dots" aria-hidden="true">⠿</span>
+        <button class="lightbox__close" id="lightboxClose" aria-label="Cerrar vídeo">
+          <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+            <line x1="18" y1="6"  x2="6"  y2="18"/>
+            <line x1="6"  y1="6"  x2="18" y2="18"/>
+          </svg>
+        </button>
+      </div>
       <div class="lightbox__media" id="lightboxMedia"></div>
     </div>
   </div>

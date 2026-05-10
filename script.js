@@ -67,13 +67,38 @@ window.addEventListener('scroll', updateActiveLink, { passive: true });
 updateActiveLink();
 
 /* ════════════════════════════════════════════════════════════
-   LIGHTBOX
+   LIGHTBOX — ventana flotante arrastrable
 ════════════════════════════════════════════════════════════ */
-const lightbox      = document.getElementById('lightbox');
-const lightboxMedia = document.getElementById('lightboxMedia');
-const lightboxClose = document.getElementById('lightboxClose');
-const lightboxBack  = document.getElementById('lightboxBackdrop');
-let   lastFocused   = null;
+const lightbox        = document.getElementById('lightbox');
+const lightboxContent = document.getElementById('lightboxContent');
+const lightboxMedia   = document.getElementById('lightboxMedia');
+const lightboxClose   = document.getElementById('lightboxClose');
+const lightboxHandle  = document.getElementById('lightboxHandle');
+let   lastFocused     = null;
+
+/* ── Arrastre ─────────────────────────────────────────────── */
+let isDragging = false, dragStartX, dragStartY, initialLeft, initialTop;
+
+lightboxHandle.addEventListener('mousedown', e => {
+  if (e.button !== 0) return;
+  isDragging = true;
+  const rect = lightboxContent.getBoundingClientRect();
+  dragStartX  = e.clientX;
+  dragStartY  = e.clientY;
+  initialLeft = rect.left;
+  initialTop  = rect.top;
+  lightboxContent.style.transition = 'none';
+  e.preventDefault();
+});
+
+document.addEventListener('mousemove', e => {
+  if (!isDragging) return;
+  lightboxContent.style.left      = `${initialLeft + e.clientX - dragStartX}px`;
+  lightboxContent.style.top       = `${initialTop  + e.clientY - dragStartY}px`;
+  lightboxContent.style.transform = 'none';
+});
+
+document.addEventListener('mouseup', () => { isDragging = false; });
 
 /**
  * Construye el elemento de media según el tipo.
@@ -117,17 +142,19 @@ function openLightbox(type, src) {
   lastFocused = document.activeElement;
   lightboxMedia.innerHTML = '';
   lightboxMedia.appendChild(buildMediaEl(type, src));
+  // Centrar al abrir (resetear si se había arrastrado antes)
+  lightboxContent.style.left      = '50%';
+  lightboxContent.style.top       = '50%';
+  lightboxContent.style.transform = 'translate(-50%, -50%)';
+  lightboxContent.style.transition = '';
   lightbox.classList.add('is-open');
   lightbox.setAttribute('aria-hidden', 'false');
-  document.body.style.overflow = 'hidden';
   lightboxClose.focus();
 }
 
 function closeLightbox() {
   lightbox.classList.remove('is-open');
   lightbox.setAttribute('aria-hidden', 'true');
-  document.body.style.overflow = '';
-  // Esperar al fade-out antes de destruir el elemento de media
   setTimeout(() => { lightboxMedia.innerHTML = ''; }, 260);
   if (lastFocused) lastFocused.focus();
 }
@@ -140,7 +167,6 @@ document.querySelector('.section--reel')?.addEventListener('click', e => {
 });
 
 lightboxClose.addEventListener('click', closeLightbox);
-lightboxBack.addEventListener('click', closeLightbox);
 
 document.addEventListener('keydown', e => {
   if (e.key === 'Escape' && lightbox.classList.contains('is-open')) {
