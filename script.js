@@ -67,13 +67,9 @@ window.addEventListener('scroll', updateActiveLink, { passive: true });
 updateActiveLink();
 
 /* ════════════════════════════════════════════════════════════
-   PIP PLAYER — se ancla al thumbnail, flota al hacer scroll
+   REPRODUCTOR EN SITIO
 ════════════════════════════════════════════════════════════ */
-const pipPlayer = document.getElementById('pipPlayer');
-const pipMedia  = document.getElementById('pipMedia');
-const pipClose  = document.getElementById('pipClose');
-let   activeItem = null;
-let   isFloating = false;
+let activeItem = null;
 
 function buildMediaEl(type, src) {
   if (type === 'youtube') {
@@ -102,70 +98,28 @@ function buildMediaEl(type, src) {
   return video;
 }
 
-function snapToCard() {
-  const rect = activeItem.querySelector('.reel-item__thumb').getBoundingClientRect();
-  pipPlayer.style.transition = 'none';
-  pipPlayer.style.left   = rect.left + 'px';
-  pipPlayer.style.top    = rect.top + 'px';
-  pipPlayer.style.width  = rect.width + 'px';
-  pipPlayer.style.height = rect.height + 'px';
-  pipPlayer.classList.remove('pip-player--floating');
-  isFloating = false;
-}
-
-function floatToCorner() {
-  const w = Math.min(340, window.innerWidth - 32);
-  const h = Math.round(w * 9 / 16);
-  pipPlayer.style.transition = 'left 0.35s ease, top 0.35s ease, width 0.35s ease, height 0.35s ease';
-  pipPlayer.style.left   = (window.innerWidth - w - 16) + 'px';
-  pipPlayer.style.top    = '80px';
-  pipPlayer.style.width  = w + 'px';
-  pipPlayer.style.height = h + 'px';
-  pipPlayer.classList.add('pip-player--floating');
-  isFloating = true;
-}
-
-function updatePip() {
+function stopPlaying() {
   if (!activeItem) return;
-  const rect = activeItem.querySelector('.reel-item__thumb').getBoundingClientRect();
-  const inView = rect.top < window.innerHeight - 40 && rect.bottom > 40;
-  if (inView) {
-    snapToCard();
-  } else if (!isFloating) {
-    floatToCorner();
-  }
-}
-
-function openPip(item) {
-  activeItem = item;
-  isFloating = false;
-  pipMedia.innerHTML = '';
-  pipMedia.appendChild(buildMediaEl(item.dataset.type, item.dataset.src));
-  pipPlayer.classList.add('is-active');
-  snapToCard();
-}
-
-function closePip() {
-  pipPlayer.classList.remove('is-active', 'pip-player--floating');
-  pipMedia.innerHTML = '';
+  activeItem.querySelector('.reel-item__thumb iframe, .reel-item__thumb video')?.remove();
+  activeItem.classList.remove('is-playing');
   activeItem = null;
-  isFloating = false;
 }
 
-window.addEventListener('scroll', updatePip, { passive: true });
-window.addEventListener('resize', updatePip, { passive: true });
+function playInPlace(item) {
+  if (activeItem === item) { stopPlaying(); return; }
+  stopPlaying();
+  item.querySelector('.reel-item__thumb').appendChild(buildMediaEl(item.dataset.type, item.dataset.src));
+  item.classList.add('is-playing');
+  activeItem = item;
+}
 
 document.querySelector('.section--reel')?.addEventListener('click', e => {
   const item = e.target.closest('.reel-item');
-  if (!item) return;
-  if (activeItem) closePip();
-  openPip(item);
+  if (item) playInPlace(item);
 });
 
-pipClose.addEventListener('click', closePip);
-
 document.addEventListener('keydown', e => {
-  if (e.key === 'Escape' && activeItem) closePip();
+  if (e.key === 'Escape') stopPlaying();
 });
 
 /* ════════════════════════════════════════════════════════════
