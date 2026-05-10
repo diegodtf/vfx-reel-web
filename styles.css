@@ -585,6 +585,10 @@ textarea      { resize: vertical; }
   display: none;
 }
 
+.reel-item.is-playing .reel-item__btn {
+  display: none;
+}
+
 .reel-item.is-playing .reel-item__thumb iframe,
 .reel-item.is-playing .reel-item__thumb video {
   position: absolute;
