@@ -109,7 +109,10 @@ function stopPlaying() {
 function playInPlace(item) {
   if (activeItem === item) { stopPlaying(); return; }
   stopPlaying();
-  item.querySelector('.reel-item__thumb').appendChild(buildMediaEl(item.dataset.type, item.dataset.src));
+  const media = buildMediaEl(item.dataset.type, item.dataset.src);
+  item.classList.add('is-loading');
+  media.addEventListener('load', () => item.classList.remove('is-loading'), { once: true });
+  item.querySelector('.reel-item__thumb').appendChild(media);
   item.classList.add('is-playing');
   activeItem = item;
 }
@@ -130,6 +133,14 @@ const form       = document.getElementById('contactForm');
 const emailInput = document.getElementById('sender-email');
 const msgInput   = document.getElementById('sender-message');
 const formStatus = document.getElementById('formStatus');
+
+/* Auto-resize textarea */
+if (msgInput) {
+  msgInput.addEventListener('input', () => {
+    msgInput.style.height = 'auto';
+    msgInput.style.height = msgInput.scrollHeight + 'px';
+  });
+}
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
 
@@ -211,4 +222,50 @@ if (form && emailInput && msgInput) {
 
     ─────────────────────────────────────────────────────────── */
   });
+}
+
+
+/* ════════════════════════════════════════════════════════════
+   SCROLL REVEAL
+════════════════════════════════════════════════════════════ */
+document.querySelectorAll('.reel-featured, .reel-breakdowns-title, .about-layout, .contact-form, .social-links')
+  .forEach(el => el.classList.add('reveal'));
+
+document.querySelectorAll('.reel-grid .reel-item').forEach((el, i) => {
+  el.classList.add('reveal');
+  el.style.transitionDelay = `${i * 90}ms`;
+});
+
+const revealObserver = new IntersectionObserver(entries => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('is-visible');
+      revealObserver.unobserve(entry.target);
+    }
+  });
+}, { threshold: 0.1 });
+
+document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
+
+/* ════════════════════════════════════════════════════════════
+   CURSOR PERSONALIZADO
+════════════════════════════════════════════════════════════ */
+if (window.matchMedia('(hover: hover)').matches) {
+  const cursor = document.createElement('span');
+  cursor.className = 'cursor';
+  document.body.appendChild(cursor);
+
+  document.addEventListener('mousemove', e => {
+    cursor.style.left = e.clientX + 'px';
+    cursor.style.top  = e.clientY + 'px';
+  }, { passive: true });
+
+  document.addEventListener('mousedown', () => cursor.classList.add('cursor--click'));
+  document.addEventListener('mouseup',   () => cursor.classList.remove('cursor--click'));
+
+  document.querySelectorAll('a, button, .reel-item, input, textarea, .nav__logo')
+    .forEach(el => {
+      el.addEventListener('mouseenter', () => cursor.classList.add('cursor--hover'));
+      el.addEventListener('mouseleave', () => cursor.classList.remove('cursor--hover'));
+    });
 }
